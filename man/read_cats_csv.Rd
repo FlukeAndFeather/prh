@@ -12,7 +12,7 @@ read_cats_csv(filepaths, local_tz)
 \item{cats_fp}{A vector of file paths.}
 }
 \value{
-A data frame with columns:
+A data.frame with columns:
 \itemize{
 \item date_UTC (character)
 \item time_UTC (character)
@@ -41,5 +41,5 @@ A data frame with columns:
 }
 \description{
 \code{read_cats_csv} reads one or more CSV files and returns a standardized
-data frame.
+data.frame.
 }

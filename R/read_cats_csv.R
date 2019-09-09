@@ -1,11 +1,11 @@
 #' Read CATS data from CSV
 #'
 #' \code{read_cats_csv} reads one or more CSV files and returns a standardized
-#' data frame.
+#' data.frame.
 #'
 #' @param cats_fp A vector of file paths.
 #' @param local_tz Local time zone of deployment data.
-#' @return A data frame with columns:
+#' @return A data.frame with columns:
 #' * date_UTC (character)
 #' * time_UTC (character)
 #' * date_local (character)
@@ -29,22 +29,15 @@
 #' * battmA (double)
 #' * datetime_UTC (POSIXct)
 #' * datetime_local (POSIXct)
-#' @importFrom magrittr %>%
 #' @md
 #' @export
 read_cats_csv <- function(filepaths, local_tz) {
   # Check arguments
-  if (missing(filepaths)) {
-    stop("argument \"filepaths\" is missing")
-  }
   if (class(filepaths) != "character") {
     stop("argument \"filepaths\" is not a character vector")
   }
   if (any(!file.exists(filepaths))) {
     stop("argument \"filepaths\" includes missing files")
-  }
-  if (missing(local_tz)) {
-    stop("argument \"local_tz\" is missing")
   }
   if (class(local_tz) != "character") {
     stop("argument \"local_tz\" is not a character vector")
@@ -97,5 +90,6 @@ read_cats_csv <- function(filepaths, local_tz) {
   purrr::map(filepaths, read_one) %>%
     dplyr::bind_rows() %>%
     dplyr::mutate(datetime_UTC = datetime(date_UTC, time_UTC, "UTC"),
-                  datetime_local = datetime(date_local, time_local, local_tz))
+                  datetime_local = datetime(date_local, time_local, local_tz)) %>%
+    tibble::as_tibble()
 }
